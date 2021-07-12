@@ -73,7 +73,7 @@ $ yarn storybook
 # Running tests
 
 ```bash
-# Run all tests
+# Run all tests (under development)
 $ yarn test
 ```
 
