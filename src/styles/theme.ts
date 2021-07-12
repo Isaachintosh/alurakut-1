@@ -1,5 +1,13 @@
-export const theme = {
+export default {
   colors: {
-    primary: '#0070f3',
+    bgPrimary: '#d9e6f6',
+    bgSecondary: '',
+    bgCard: '#fff',
+  },
+  fonts: {
+    size: '1rem',
+  },
+  shapes: {
+    borderRadius: '8px',
   },
 };
