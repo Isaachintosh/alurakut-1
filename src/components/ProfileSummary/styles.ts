@@ -9,7 +9,7 @@ export const Container = styled.ul`
 
   li {
     font-size: 12px;
-    color: #5a5a5a;
+    color: ${({ theme }) => theme.colors.gray[400]};
     display: grid;
     grid-template-areas:
       'title title'

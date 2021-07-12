@@ -49,7 +49,7 @@ export const ProfileRelationsBoxWrapper = styled(CardStyles.Container)`
     border-radius: ${({ theme }) => theme.shapes.borderRadius};
 
     span {
-      color: #ffffff;
+      color: ${({ theme }) => theme.colors.white};
       font-size: 10px;
       position: absolute;
       left: 0;

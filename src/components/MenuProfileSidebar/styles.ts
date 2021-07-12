@@ -38,7 +38,7 @@ export const Container = styled.div<ContainerProps>`
 
   .boxLink {
     font-size: 18px;
-    color: #2e7bb4;
+    color: ${({ theme }) => theme.colors.blue[600]};
     -webkit-text-decoration: none;
     text-decoration: none;
     font-weight: 800;
@@ -48,14 +48,14 @@ export const Container = styled.div<ContainerProps>`
     margin-top: 12px;
     margin-bottom: 8px;
     border-color: transparent;
-    border-bottom-color: #ecf2fa;
+    border-bottom-color: ${({ theme }) => theme.colors.gray[200]};
   }
 `;
 
 export const Actions = styled.div`
   a {
     font-size: 12px;
-    color: #2e7bb4;
+    color: ${({ theme }) => theme.colors.blue[600]};
     margin-bottom: 16px;
     display: flex;
     align-items: center;

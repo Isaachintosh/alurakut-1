@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.header`
   width: 100%;
-  background-color: #308bc5;
+  background-color: ${({ theme }) => theme.colors.blue[500]};
 
   .container {
-    background-color: #308bc5;
+    background-color: ${({ theme }) => theme.colors.blue[500]};
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -45,7 +45,7 @@ export const Wrapper = styled.header`
 
         &:after {
           content: ' ';
-          background-color: #5292c1;
+          background: ${({ theme }) => theme.colors.blue[300]};
           display: block;
           position: absolute;
           width: 1px;
@@ -63,8 +63,8 @@ export const Wrapper = styled.header`
     }
 
     input {
-      color: #ffffff;
-      background: #5579a1;
+      color: ${({ theme }) => theme.colors.white};
+      background: ${({ theme }) => theme.colors.blue[700]};
       padding: 10px 42px;
       border: 0;
       background-image: url(${`${process.env.NEXT_PUBLIC_BASE_URL}/icons/search.svg`});
@@ -74,7 +74,7 @@ export const Wrapper = styled.header`
       font-size: 12px;
 
       ::placeholder {
-        color: #ffffff;
+        color: ${({ theme }) => theme.colors.white};
         opacity: 1;
       }
     }
@@ -82,7 +82,7 @@ export const Wrapper = styled.header`
 `;
 
 export const Logo = styled.img`
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white};
   padding: 9px 14px;
   border-radius: 1000px;
   height: 34px;
