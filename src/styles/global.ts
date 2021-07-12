@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import { AlurakutStyles } from '../lib/AlurakutCommons';
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;

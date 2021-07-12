@@ -1,5 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { ThemeProvider } from 'styled-components';
 import { Card } from '.';
+import theme from '../../styles/theme';
 
 export default {
   title: 'Components/Card',
@@ -8,7 +10,7 @@ export default {
 
 const Template: ComponentStory<typeof Card> = () => (
   <Card>
-    <h1>Conteúdo</h1>
+    <h1>Card content</h1>
   </Card>
 );
 

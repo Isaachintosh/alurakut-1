@@ -15,8 +15,6 @@ export function ProfileSummary(props) {
     { name: 'Sexy', slug: 'sexy', icon: 'heart' },
   ];
 
-  function renderCharacteristicIcon(index, total, slug, icon) {}
-
   return (
     <S.Container>
       {items.map(({ name, slug, icon }) => (

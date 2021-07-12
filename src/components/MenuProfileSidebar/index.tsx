@@ -11,7 +11,7 @@ export function MenuProfileSidebar({
   isOpen,
 }: MenuProfileSidebarProps) {
   return (
-    <S.Container isOpen={isOpen}>
+    <S.Container id="menuProfileSidebar" isOpen={isOpen}>
       <div>
         <img src={`https://github.com/${githubUser}.png`} />
 

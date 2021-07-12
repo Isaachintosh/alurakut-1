@@ -7,7 +7,9 @@ export default {
 } as ComponentMeta<typeof Profile>;
 
 const Template: ComponentStory<typeof Profile> = ({ githubUser }) => (
-  <Profile githubUser={githubUser} />
+  <div style={{ maxWidth: 400, maxHeight: 400 }}>
+    <Profile githubUser={githubUser} />
+  </div>
 );
 
 export const Default = Template.bind({});
