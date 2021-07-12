@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  This is a clone of the nostalgic social media Orkut
+  This is a clone of the nostalgic social network Orkut
 </p>
 
 <p align="center">This project was developed during the Alura Immersion with Next.js and Styled Components</p>
