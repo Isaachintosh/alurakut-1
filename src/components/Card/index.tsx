@@ -6,5 +6,5 @@ interface CardProps {
 }
 
 export function Card({ children }: CardProps) {
-  return <S.Container>{children}</S.Container>;
+  return <S.Container data-testid="card">{children}</S.Container>;
 }

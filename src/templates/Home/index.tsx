@@ -19,19 +19,16 @@ export function Home() {
     <>
       <Menu githubUser={githubUser} />
       <S.Container>
-        <div className="profileArea" style={{ gridArea: '' }}>
+        <div className="profileArea">
           <Profile githubUser={githubUser} />
         </div>
-        <div className="welcomeArea" style={{ gridArea: 'welcomeArea' }}>
+        <div className="welcomeArea">
           <Card>
             <h1>Bem vindo(a)</h1>
             <ProfileSummary />
           </Card>
         </div>
-        <div
-          className="profileRelationsArea"
-          style={{ gridArea: 'profileRelationsArea' }}
-        >
+        <div className="profileRelationsArea">
           <S.ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
               Pessoas da comunidade ({pessoasFavoritas.length})

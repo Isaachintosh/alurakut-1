@@ -73,8 +73,11 @@ $ yarn storybook
 # Running tests
 
 ```bash
-# Run all tests (under development)
+# Run the tests
 $ yarn test
+
+# Run the tests in watch mode
+$ yarn test:watch
 ```
 
 # Issues

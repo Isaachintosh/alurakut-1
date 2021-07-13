@@ -7,7 +7,7 @@ interface ProfileProps {
 export function Profile({ githubUser }: ProfileProps) {
   return (
     <S.Container>
-      <img src={`https://github.com/${githubUser}.png`} alt="Avatar" />
+      <img src={`https://github.com/${githubUser}.png`} alt="User avatar" />
     </S.Container>
   );
 }
