@@ -20,6 +20,7 @@
 - [Demo](#demo)
 - [Technologies](#technologies)
 - [Getting started](#getting-started)
+- [Components docs](#components-docs)
 - [Running tests](#running-tests)
 - [Issues](#issues)
 - [Contributing](#issues)
