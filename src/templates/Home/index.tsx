@@ -85,7 +85,7 @@ export function Home() {
             data={(!seeMoreFollowers ? getRandom(followers, 6) : followers).map(
               (follower) => ({
                 key: follower.id,
-                href: `/users/${follower.login}`,
+                href: follower.html_url,
                 imageSrc: follower.avatar_url,
                 title: follower.login,
               })
