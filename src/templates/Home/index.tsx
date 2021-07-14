@@ -8,9 +8,11 @@ import { ProfileSummary } from 'components/ProfileSummary';
 import * as S from './styles';
 import { Community } from './types';
 import { ListInterests } from 'components/ListInterests';
+import { getRandom } from 'utils/get-random';
 
 export function Home() {
   const [communities, setCommunities] = useState<Community[]>(communitiesMock);
+  const [seeMoreCommunities, setSeeMoreCommunities] = useState(false);
 
   const githubUser = 'brfeitoza';
 
@@ -71,12 +73,19 @@ export function Home() {
         <div className="profileRelationsArea">
           <ListInterests
             title={`Comunidades (${communities.length})`}
-            data={communities.map((community) => ({
+            data={(!seeMoreCommunities
+              ? getRandom<Community>(communities, 6)
+              : communities
+            ).map((community) => ({
               key: community.id,
               href: `/users/${community.title}`,
               imageSrc: community.image,
               title: community.title,
             }))}
+            showSeeMore={communities.length > 6}
+            onClickToggleSeeMore={() =>
+              setSeeMoreCommunities((prevState) => !prevState)
+            }
           />
           <ListInterests
             title={`Pessoas da comunidade (${peopleMock.length})`}

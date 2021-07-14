@@ -6,7 +6,6 @@ export const Container = styled(CardStyles.Container)`
     display: grid;
     grid-gap: 8px;
     grid-template-columns: 1fr 1fr 1fr;
-    max-height: 220px;
     list-style: none;
   }
 
@@ -51,6 +50,16 @@ export const Container = styled(CardStyles.Container)`
       bottom: 0;
       z-index: 1;
       background-image: linear-gradient(0deg, #00000073, transparent);
+    }
+  }
+
+  .seeMore {
+    color: ${({ theme }) => theme.colors.blue[600]};
+    margin-top: 20px;
+
+    &:hover {
+      cursor: pointer;
+      filter: brightness(1.2);
     }
   }
 `;
