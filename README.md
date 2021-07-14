@@ -79,6 +79,9 @@ $ yarn test
 
 # Run the tests in watch mode
 $ yarn test:watch
+
+# Run the tests and generate coverage report
+$ yarn test:coverage
 ```
 
 # Issues
