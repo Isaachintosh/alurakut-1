@@ -25,5 +25,9 @@ export const GlobalStyles = createGlobalStyle`
     display: block;
   }
 
+  .ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index: 102;
+  }
+
   ${AlurakutStyles}
 `;
