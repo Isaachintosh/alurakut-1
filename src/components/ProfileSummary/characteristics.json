@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Confiável",
+    "slug": "confiavel",
+    "icon": "smile"
+  },
+  {
+    "name": "Legal",
+    "slug": "legal",
+    "icon": "cool"
+  },
+  {
+    "name": "Sexy",
+    "slug": "sexy",
+    "icon": "heart"
+  }
+]

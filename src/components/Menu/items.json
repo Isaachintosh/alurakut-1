@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Inicio",
+    "slug": "/"
+  },
+  {
+    "name": "Amigos",
+    "slug": "/amigos"
+  },
+  {
+    "name": "Comunidades",
+    "slug": "/comunidades"
+  }
+]

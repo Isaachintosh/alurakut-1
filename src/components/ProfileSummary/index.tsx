@@ -1,20 +1,8 @@
 import * as S from './styles';
+import items from './items.json';
+import characteristics from './characteristics.json';
 
 export function ProfileSummary(props) {
-  const items = [
-    { name: 'Recados', slug: 'recados', icon: 'book' },
-    { name: 'Fotos', slug: 'fotos', icon: 'camera' },
-    { name: 'Videos', slug: 'videos', icon: 'video-camera' },
-    { name: 'Fãs', slug: 'fas', icon: 'star' },
-    { name: 'Mensagens', slug: 'mensagens', icon: 'email' },
-  ];
-
-  const characteristics = [
-    { name: 'Confiável', slug: 'confiavel', icon: 'smile' },
-    { name: 'Legal', slug: 'legal', icon: 'cool' },
-    { name: 'Sexy', slug: 'sexy', icon: 'heart' },
-  ];
-
   return (
     <S.Container>
       {items.map(({ name, slug, icon }) => (
