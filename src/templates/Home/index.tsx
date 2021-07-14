@@ -1,6 +1,6 @@
 import communitiesMock from 'mocks/communities.json';
 import peopleMock from 'mocks/people.json';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Card } from 'components/Card';
 import { Menu } from 'components/Menu';
 import { Profile } from 'components/Profile';
@@ -9,12 +9,21 @@ import * as S from './styles';
 import { Community } from './types';
 import { ListInterests } from 'components/ListInterests';
 import { getRandom } from 'utils/get-random';
+import { githubApi } from 'services/githubApi';
 
 export function Home() {
+  const [followers, setFollowers] = useState([]);
   const [communities, setCommunities] = useState<Community[]>(communitiesMock);
   const [seeMoreCommunities, setSeeMoreCommunities] = useState(false);
+  const [seeMoreFollowers, setSeeMoreFollowers] = useState(false);
 
   const githubUser = 'brfeitoza';
+
+  useEffect(() => {
+    githubApi
+      .get(`${githubUser}/followers`)
+      .then((response) => setFollowers(response.data));
+  }, []);
 
   function handleAddNewCommunity(e: FormEvent) {
     e.preventDefault();
@@ -71,6 +80,21 @@ export function Home() {
         </div>
 
         <div className="profileRelationsArea">
+          <ListInterests
+            title={`Seguidores (${followers.length})`}
+            data={(!seeMoreFollowers ? getRandom(followers, 6) : followers).map(
+              (follower) => ({
+                key: follower.id,
+                href: `/users/${follower.login}`,
+                imageSrc: follower.avatar_url,
+                title: follower.login,
+              })
+            )}
+            showSeeMore={followers.length > 6}
+            onClickToggleSeeMore={() =>
+              setSeeMoreFollowers((prevState) => !prevState)
+            }
+          />
           <ListInterests
             title={`Comunidades (${communities.length})`}
             data={(!seeMoreCommunities
