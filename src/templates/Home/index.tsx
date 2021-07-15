@@ -23,6 +23,10 @@ export function Home() {
     []
   );
 
+  const [communityPeople, setCommunityPeople] = useState<string[]>(peopleMock);
+  const [communityPeopleFiltered, setCommunityPeopleFiltered] =
+    useState<string[]>(peopleMock);
+
   const [createCommunityButtonText, setCreateCommunityButtonText] =
     useState('Criar comunidade');
 
@@ -41,11 +45,6 @@ export function Home() {
   }, []);
 
   function handleFilterFollowers() {
-    if (!search) {
-      setFollowersFiltered([...followers]);
-      return;
-    }
-
     const filteredFollowers = [];
     followers.forEach((follower) => {
       if (follower.login.includes(search)) {
@@ -56,11 +55,6 @@ export function Home() {
   }
 
   function handleFilterCommunities() {
-    if (!search) {
-      setCommunitiesFiltered([...communities]);
-      return;
-    }
-
     const filteredCommunities = [];
     communities.forEach((community) => {
       if (community.title.includes(search)) {
@@ -70,11 +64,26 @@ export function Home() {
     setCommunitiesFiltered([...filteredCommunities]);
   }
 
+  function handleFilterCommunityPeople() {
+    const filteredCommunityPeople = [];
+    communityPeople.forEach((people) => {
+      if (people.includes(search)) {
+        filteredCommunityPeople.push(people);
+      }
+    });
+    setCommunityPeopleFiltered([...filteredCommunityPeople]);
+  }
+
   useEffect(() => {
     debounce(() => {
       if (search) {
         handleFilterFollowers();
         handleFilterCommunities();
+        handleFilterCommunityPeople();
+      } else {
+        setFollowersFiltered([...followers]);
+        setCommunitiesFiltered([...communities]);
+        setCommunityPeopleFiltered([...communityPeople]);
       }
     }, 500);
   }, [search]);
@@ -160,7 +169,7 @@ export function Home() {
           />
           <ListInterests
             title={`Pessoas da comunidade (${peopleMock.length})`}
-            data={peopleMock.map((pessoa) => ({
+            data={communityPeopleFiltered.map((pessoa) => ({
               key: `${Date.now().toString()}-${Math.random}-${pessoa}`,
               href: `/users/${pessoa}`,
               imageSrc: `https://github.com/${pessoa}.png`,
