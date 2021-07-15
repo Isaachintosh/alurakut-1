@@ -5,6 +5,7 @@ import menuItems from './items.json';
 import { Profile } from 'components/Profile';
 import { ModalTheme } from 'components/ModalTheme';
 import { useModalTheme } from 'hooks/ModalThemeContext';
+import { useMenu } from 'hooks/MenuContext';
 
 interface MenuProps {
   githubUser: string;
@@ -12,6 +13,7 @@ interface MenuProps {
 
 export function Menu({ githubUser }: MenuProps) {
   const { isModalThemeOpen, setIsModalThemeOpen } = useModalTheme();
+  const { search, setSearch } = useMenu();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -49,7 +51,12 @@ export function Menu({ githubUser }: MenuProps) {
           <Link href="/logout">Sair</Link>
 
           <div>
-            <input placeholder="Pesquisar no Alurakut" />
+            <input
+              placeholder="Pesquisar no Alurakut"
+              name="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
         </nav>
 

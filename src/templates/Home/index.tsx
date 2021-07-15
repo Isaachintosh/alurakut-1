@@ -9,10 +9,19 @@ import { Community, Follower } from './types';
 import { ListInterests } from 'components/ListInterests';
 import { githubApi } from 'services/githubApi';
 import { api } from 'services/api';
+import { useMenu } from 'hooks/MenuContext';
+import { debounce } from 'utils/debounce';
 
 export function Home() {
+  const { search } = useMenu();
+
   const [followers, setFollowers] = useState<Follower[]>([]);
+  const [followersFiltered, setFollowersFiltered] = useState<Follower[]>([]);
+
   const [communities, setCommunities] = useState<Community[]>([]);
+  const [communitiesFiltered, setCommunitiesFiltered] = useState<Community[]>(
+    []
+  );
 
   const [createCommunityButtonText, setCreateCommunityButtonText] =
     useState('Criar comunidade');
@@ -20,14 +29,53 @@ export function Home() {
   const githubUser = 'brfeitoza';
 
   useEffect(() => {
-    githubApi
-      .get(`users/${githubUser}/followers`)
-      .then((response) => setFollowers(response.data));
+    githubApi.get(`users/${githubUser}/followers`).then((response) => {
+      setFollowers(response.data);
+      setFollowersFiltered(response.data);
+    });
 
-    api
-      .get('communities')
-      .then((response) => setCommunities(response.data.allCommunities));
+    api.get('communities').then((response) => {
+      setCommunities(response.data.allCommunities);
+      setCommunitiesFiltered(response.data.allCommunities);
+    });
   }, []);
+
+  function handleFilterFollowers() {
+    if (!search) {
+      setFollowersFiltered([...followers]);
+      return;
+    }
+
+    const filteredFollowers = [];
+    followers.forEach((follower) => {
+      if (follower.login.includes(search)) {
+        filteredFollowers.push(follower);
+      }
+    });
+    setFollowersFiltered([...filteredFollowers]);
+  }
+
+  function handleFilterCommunities() {
+    if (!search) {
+      setCommunitiesFiltered([...communities]);
+      return;
+    }
+
+    const filteredCommunities = [];
+    communities.forEach((community) => {
+      if (community.title.includes(search)) {
+        filteredCommunities.push(community);
+      }
+    });
+    setCommunitiesFiltered([...filteredCommunities]);
+  }
+
+  useEffect(() => {
+    debounce(() => {
+      handleFilterFollowers();
+      handleFilterCommunities();
+    }, 500);
+  }, [search]);
 
   async function handleAddNewCommunity(e: FormEvent) {
     e.preventDefault();
@@ -91,7 +139,7 @@ export function Home() {
         <div className="profileRelationsArea">
           <ListInterests
             title={`Seguidores (${followers.length})`}
-            data={followers.map((follower) => ({
+            data={followersFiltered.map((follower) => ({
               key: String(follower.id),
               href: follower.html_url,
               imageSrc: follower.avatar_url,
@@ -101,7 +149,7 @@ export function Home() {
           />
           <ListInterests
             title={`Comunidades (${communities.length})`}
-            data={communities.map((community) => ({
+            data={communitiesFiltered.map((community) => ({
               key: community.id,
               href: `/communities/${community.id}`,
               imageSrc: community.imageUrl,
