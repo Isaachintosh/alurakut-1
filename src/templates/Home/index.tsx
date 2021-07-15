@@ -23,7 +23,6 @@ export function Home() {
     []
   );
 
-  const [communityPeople, setCommunityPeople] = useState<string[]>(peopleMock);
   const [communityPeopleFiltered, setCommunityPeopleFiltered] =
     useState<string[]>(peopleMock);
 
@@ -66,7 +65,7 @@ export function Home() {
 
   function handleFilterCommunityPeople() {
     const filteredCommunityPeople = [];
-    communityPeople.forEach((people) => {
+    peopleMock.forEach((people) => {
       if (people.includes(search)) {
         filteredCommunityPeople.push(people);
       }
@@ -76,15 +75,20 @@ export function Home() {
 
   useEffect(() => {
     debounce(() => {
-      if (search) {
-        handleFilterFollowers();
-        handleFilterCommunities();
-        handleFilterCommunityPeople();
-      } else {
+      if (!followers.length || !communities.length) {
+        return;
+      }
+
+      if (!search) {
         setFollowersFiltered([...followers]);
         setCommunitiesFiltered([...communities]);
-        setCommunityPeopleFiltered([...communityPeople]);
+        setCommunityPeopleFiltered([...peopleMock]);
+        return;
       }
+
+      handleFilterFollowers();
+      handleFilterCommunities();
+      handleFilterCommunityPeople();
     }, 500);
   }, [search]);
 
