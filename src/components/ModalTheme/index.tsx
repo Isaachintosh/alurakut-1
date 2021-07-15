@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
-import Modal from 'react-modal';
 import { ListImages } from 'components/ListImages';
-import { ModalContext } from 'contexts/ModalContext';
+import { useModalTheme } from 'hooks/ModalThemeContext';
+import { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import { api } from 'services/api';
 import * as S from './styles';
 
@@ -10,7 +10,7 @@ interface ModalThemeProps {
 }
 
 export function ModalTheme({ isOpen }: ModalThemeProps) {
-  const { setIsModalOpen } = useContext(ModalContext);
+  const { setIsModalThemeOpen } = useModalTheme();
 
   const [images, setImages] = useState<string[]>([]);
 
@@ -23,13 +23,11 @@ export function ModalTheme({ isOpen }: ModalThemeProps) {
 
   function handleSetTheme(image: string) {
     document.body.style.backgroundImage = `url('${image}')`;
-    document.body.style.backgroundRepeat = 'no-repeat';
-    document.body.style.backgroundSize = 'cover';
     handleCloseModal();
   }
 
   function handleCloseModal() {
-    setIsModalOpen(false);
+    setIsModalThemeOpen(false);
   }
 
   return (

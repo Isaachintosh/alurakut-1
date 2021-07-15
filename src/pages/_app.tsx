@@ -1,4 +1,4 @@
-import { ModalProvider } from 'contexts/ModalContext';
+import { ModalThemeProvider } from 'hooks/ModalThemeContext';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from 'styles/global';
 import theme from 'styles/theme';
@@ -8,9 +8,9 @@ export default function App({ Component, pageProps }) {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <ModalProvider>
+        <ModalThemeProvider>
           <Component {...pageProps} />
-        </ModalProvider>
+        </ModalThemeProvider>
       </ThemeProvider>
     </>
   );

@@ -6,13 +6,13 @@ import { Menu } from 'components/Menu';
 import { Profile } from 'components/Profile';
 import { ProfileSummary } from 'components/ProfileSummary';
 import * as S from './styles';
-import { Community } from './types';
+import { Community, Follower } from './types';
 import { ListInterests } from 'components/ListInterests';
 import { getRandom } from 'utils/get-random';
 import { githubApi } from 'services/githubApi';
 
 export function Home() {
-  const [followers, setFollowers] = useState([]);
+  const [followers, setFollowers] = useState<Follower[]>([]);
   const [communities, setCommunities] = useState<Community[]>(communitiesMock);
   const [seeMoreCommunities, setSeeMoreCommunities] = useState(false);
   const [seeMoreFollowers, setSeeMoreFollowers] = useState(false);
@@ -21,7 +21,7 @@ export function Home() {
 
   useEffect(() => {
     githubApi
-      .get(`${githubUser}/followers`)
+      .get(`users/${githubUser}/followers`)
       .then((response) => setFollowers(response.data));
   }, []);
 
@@ -82,14 +82,15 @@ export function Home() {
         <div className="profileRelationsArea">
           <ListInterests
             title={`Seguidores (${followers.length})`}
-            data={(!seeMoreFollowers ? getRandom(followers, 6) : followers).map(
-              (follower) => ({
-                key: follower.id,
-                href: follower.html_url,
-                imageSrc: follower.avatar_url,
-                title: follower.login,
-              })
-            )}
+            data={(!seeMoreFollowers
+              ? getRandom<Follower>(followers, 6)
+              : followers
+            ).map((follower) => ({
+              key: String(follower.id),
+              href: follower.html_url,
+              imageSrc: follower.avatar_url,
+              title: follower.login,
+            }))}
             showSeeMore={followers.length > 6}
             onClickToggleSeeMore={() =>
               setSeeMoreFollowers((prevState) => !prevState)

@@ -1,17 +1,17 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { Link } from '../Link';
 import * as S from './styles';
 import menuItems from './items.json';
 import { Profile } from 'components/Profile';
 import { ModalTheme } from 'components/ModalTheme';
-import { ModalContext } from 'contexts/ModalContext';
+import { useModalTheme } from 'hooks/ModalThemeContext';
 
 interface MenuProps {
   githubUser: string;
 }
 
 export function Menu({ githubUser }: MenuProps) {
-  const { isModalOpen, setIsModalOpen } = useContext(ModalContext);
+  const { isModalThemeOpen, setIsModalThemeOpen } = useModalTheme();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -19,8 +19,8 @@ export function Menu({ githubUser }: MenuProps) {
     setIsOpen((prevState) => !prevState);
   }
 
-  function handleToggleModal() {
-    setIsModalOpen((prevState) => !prevState);
+  function handleToggleModalTheme() {
+    setIsModalThemeOpen((prevState) => !prevState);
   }
 
   return (
@@ -43,7 +43,7 @@ export function Menu({ githubUser }: MenuProps) {
         </nav>
 
         <nav>
-          <a href="#" onClick={handleToggleModal}>
+          <a href="#" onClick={handleToggleModalTheme}>
             Escolher tema
           </a>
           <Link href="/logout">Sair</Link>
@@ -75,7 +75,7 @@ export function Menu({ githubUser }: MenuProps) {
         </S.ProfileMobile>
       )}
 
-      <ModalTheme isOpen={isModalOpen} />
+      <ModalTheme isOpen={isModalThemeOpen} />
     </S.Wrapper>
   );
 }

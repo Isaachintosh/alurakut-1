@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import * as S from './styles';
+import { ImageShape } from './types';
 
 interface ListImagesProps {
-  data: Array<string>;
+  data: Array<ImageShape>;
   showSeeMore?: boolean;
   onClick?: (image: string) => void;
   onClickToggleSeeMore?: () => void;
@@ -20,8 +21,8 @@ export function ListImages({
     <S.Container>
       <ul>
         {data.map((item) => (
-          <li key={item} onClick={() => onClick(item)}>
-            <img src={item} />
+          <li key={item.id} onClick={() => onClick(item.urls.full)}>
+            <img src={item.urls.small} alt={item.alt_description} />
           </li>
         ))}
       </ul>

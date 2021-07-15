@@ -10,6 +10,8 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     background: ${({ theme }) => theme.colors.blue[100]};
+    background-repeat: no-repeat;
+    background-size: cover;
     font-family: sans-serif;
   }
 
