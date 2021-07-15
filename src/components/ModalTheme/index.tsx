@@ -1,4 +1,5 @@
 import { ListImages } from 'components/ListImages';
+import { ImageShape } from 'components/ListImages/types';
 import { useModalTheme } from 'hooks/ModalThemeContext';
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
@@ -12,12 +13,12 @@ interface ModalThemeProps {
 export function ModalTheme({ isOpen }: ModalThemeProps) {
   const { setIsModalThemeOpen } = useModalTheme();
 
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<ImageShape[]>([]);
 
   useEffect(() => {
     (async () => {
       const photos = await api.get('unsplash');
-      setImages(photos.data.photos as any);
+      setImages(photos.data.photos);
     })();
   }, []);
 

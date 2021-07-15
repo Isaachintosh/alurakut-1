@@ -14,8 +14,6 @@ import { githubApi } from 'services/githubApi';
 export function Home() {
   const [followers, setFollowers] = useState<Follower[]>([]);
   const [communities, setCommunities] = useState<Community[]>(communitiesMock);
-  const [seeMoreCommunities, setSeeMoreCommunities] = useState(false);
-  const [seeMoreFollowers, setSeeMoreFollowers] = useState(false);
 
   const githubUser = 'brfeitoza';
 
@@ -82,35 +80,22 @@ export function Home() {
         <div className="profileRelationsArea">
           <ListInterests
             title={`Seguidores (${followers.length})`}
-            data={(!seeMoreFollowers
-              ? getRandom<Follower>(followers, 6)
-              : followers
-            ).map((follower) => ({
+            data={followers.map((follower) => ({
               key: String(follower.id),
               href: follower.html_url,
               imageSrc: follower.avatar_url,
               title: follower.login,
             }))}
-            showSeeMore={followers.length > 6}
-            onClickToggleSeeMore={() =>
-              setSeeMoreFollowers((prevState) => !prevState)
-            }
+            target="_blank"
           />
           <ListInterests
             title={`Comunidades (${communities.length})`}
-            data={(!seeMoreCommunities
-              ? getRandom<Community>(communities, 6)
-              : communities
-            ).map((community) => ({
+            data={communities.map((community) => ({
               key: community.id,
               href: `/users/${community.title}`,
               imageSrc: community.image,
               title: community.title,
             }))}
-            showSeeMore={communities.length > 6}
-            onClickToggleSeeMore={() =>
-              setSeeMoreCommunities((prevState) => !prevState)
-            }
           />
           <ListInterests
             title={`Pessoas da comunidade (${peopleMock.length})`}
