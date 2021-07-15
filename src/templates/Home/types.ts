@@ -1,7 +1,7 @@
 export type Community = {
   id: string;
   title: string;
-  image: string;
+  imageUrl: string;
 };
 
 export type Follower = {

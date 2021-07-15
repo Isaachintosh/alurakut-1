@@ -17,7 +17,7 @@ export function ModalTheme({ isOpen }: ModalThemeProps) {
 
   useEffect(() => {
     (async () => {
-      const photos = await api.get('unsplash');
+      const photos = await api.get('photos');
       setImages(photos.data.photos);
     })();
   }, []);

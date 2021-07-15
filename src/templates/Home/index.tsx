@@ -1,4 +1,3 @@
-import communitiesMock from 'mocks/communities.json';
 import peopleMock from 'mocks/people.json';
 import { FormEvent, useEffect, useState } from 'react';
 import { Card } from 'components/Card';
@@ -8,12 +7,15 @@ import { ProfileSummary } from 'components/ProfileSummary';
 import * as S from './styles';
 import { Community, Follower } from './types';
 import { ListInterests } from 'components/ListInterests';
-import { getRandom } from 'utils/get-random';
 import { githubApi } from 'services/githubApi';
+import { api } from 'services/api';
 
 export function Home() {
   const [followers, setFollowers] = useState<Follower[]>([]);
-  const [communities, setCommunities] = useState<Community[]>(communitiesMock);
+  const [communities, setCommunities] = useState<Community[]>([]);
+
+  const [createCommunityButtonText, setCreateCommunityButtonText] =
+    useState('Criar comunidade');
 
   const githubUser = 'brfeitoza';
 
@@ -21,20 +23,29 @@ export function Home() {
     githubApi
       .get(`users/${githubUser}/followers`)
       .then((response) => setFollowers(response.data));
+
+    api
+      .get('communities')
+      .then((response) => setCommunities(response.data.allCommunities));
   }, []);
 
-  function handleAddNewCommunity(e: FormEvent) {
+  async function handleAddNewCommunity(e: FormEvent) {
     e.preventDefault();
+    setCreateCommunityButtonText('Carregando...');
 
     const formData = new FormData(e.target as HTMLFormElement);
 
     const community = {
       id: `${new Date().toISOString()}-${Math.random()}`,
       title: String(formData.get('title')),
-      image: String(formData.get('image')),
+      imageUrl: String(formData.get('image')),
+      creatorSlug: githubUser,
     };
 
-    setCommunities((prevState) => [...prevState, community]);
+    const response = await api.post('create-community', community);
+    setCreateCommunityButtonText('Criar comunidade');
+
+    setCommunities((prevState) => [...prevState, response.data.newCommunity]);
   }
 
   return (
@@ -72,7 +83,7 @@ export function Home() {
                 />
               </div>
 
-              <button type="submit">Criar comunidade</button>
+              <button type="submit">{createCommunityButtonText}</button>
             </form>
           </Card>
         </div>
@@ -92,8 +103,8 @@ export function Home() {
             title={`Comunidades (${communities.length})`}
             data={communities.map((community) => ({
               key: community.id,
-              href: `/users/${community.title}`,
-              imageSrc: community.image,
+              href: `/communities/${community.id}`,
+              imageSrc: community.imageUrl,
               title: community.title,
             }))}
           />
