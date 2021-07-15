@@ -72,8 +72,10 @@ export function Home() {
 
   useEffect(() => {
     debounce(() => {
-      handleFilterFollowers();
-      handleFilterCommunities();
+      if (search) {
+        handleFilterFollowers();
+        handleFilterCommunities();
+      }
     }, 500);
   }, [search]);
 
@@ -159,7 +161,7 @@ export function Home() {
           <ListInterests
             title={`Pessoas da comunidade (${peopleMock.length})`}
             data={peopleMock.map((pessoa) => ({
-              key: pessoa,
+              key: `${Date.now().toString()}-${Math.random}-${pessoa}`,
               href: `/users/${pessoa}`,
               imageSrc: `https://github.com/${pessoa}.png`,
               title: pessoa,
