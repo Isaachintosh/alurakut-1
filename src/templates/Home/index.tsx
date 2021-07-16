@@ -44,32 +44,23 @@ export function Home() {
   }, []);
 
   function handleFilterFollowers() {
-    const filteredFollowers = [];
-    followers.forEach((follower) => {
-      if (follower.login.includes(search)) {
-        filteredFollowers.push(follower);
-      }
-    });
+    const filteredFollowers = followers.filter((follower) =>
+      follower.login.toLowerCase().includes(search.toLowerCase())
+    );
     setFollowersFiltered([...filteredFollowers]);
   }
 
   function handleFilterCommunities() {
-    const filteredCommunities = [];
-    communities.forEach((community) => {
-      if (community.title.includes(search)) {
-        filteredCommunities.push(community);
-      }
-    });
+    const filteredCommunities = communities.filter((community) =>
+      community.title.toLowerCase().includes(search.toLowerCase())
+    );
     setCommunitiesFiltered([...filteredCommunities]);
   }
 
   function handleFilterCommunityPeople() {
-    const filteredCommunityPeople = [];
-    peopleMock.forEach((people) => {
-      if (people.includes(search)) {
-        filteredCommunityPeople.push(people);
-      }
-    });
+    const filteredCommunityPeople = peopleMock.filter((people) =>
+      people.toLowerCase().includes(search.toLowerCase())
+    );
     setCommunityPeopleFiltered([...filteredCommunityPeople]);
   }
 
