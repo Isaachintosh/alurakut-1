@@ -24,8 +24,27 @@ export const Container = styled.main`
   }
 
   .form-invalid {
-    margin-bottom: ${({ theme }) => theme.spacing.gap};
+    margin-bottom: ${({ theme }) => theme.spacing.gutter};
     color: #c92306;
+  }
+
+  .action-buttons-container {
+    padding-top: ${({ theme }) => theme.spacing.gap};
+
+    .action-button {
+      border-radius: ${({ theme }) => theme.shapes.borderRadius};
+      background: ${({ theme }) => theme.colors.blue[100]};
+      color: ${({ theme }) => theme.colors.blue[600]};
+
+      & + .action-button {
+        margin-left: ${({ theme }) => theme.spacing.gap};
+      }
+
+      &.active {
+        background: ${({ theme }) => theme.colors.blue[700]};
+        color: ${({ theme }) => theme.colors.white};
+      }
+    }
   }
 `;
 

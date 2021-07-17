@@ -43,14 +43,14 @@ export const Container = styled.div`
   input {
     width: 100%;
     background-color: #f4f4f4;
-    color: #333333;
+    color: ${({ theme }) => theme.colors.gray[500]};
     border: 0;
     padding: 14px 16px;
     margin-bottom: 14px;
     border-radius: 10000px;
 
     ::placeholder {
-      color: #333333;
+      color: ${({ theme }) => theme.colors.gray[500]};
       opacity: 1;
     }
   }
@@ -58,8 +58,8 @@ export const Container = styled.div`
   button {
     border: 0;
     padding: 8px 12px;
-    color: #ffffff;
+    color: ${({ theme }) => theme.colors.white};
     border-radius: 10000px;
-    background-color: #6f92bb;
+    background-color: ${({ theme }) => theme.colors.blue[700]};
   }
 `;

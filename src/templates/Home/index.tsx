@@ -43,6 +43,8 @@ export function Home() {
   const [createMessageButtonText, setCreateMessageButtonText] =
     useState('Deixar recado');
 
+  const [whatToDo, setWhatToDo] = useState<'message' | 'community'>('message');
+
   useEffect(() => {
     const user = nookies.get(null).GITHUB_USER;
     if (user) setGithubUser(user);
@@ -177,87 +179,120 @@ export function Home() {
         <div className="welcomeArea">
           <Card>
             <h1>Bem vindo(a)</h1>
-            <ProfileSummary />
+            <ProfileSummary recados={messages.length} />
           </Card>
 
           <Card>
-            <h2 className="subTitle">Crie a sua comunidade!</h2>
+            <h2>O que você deseja fazer?</h2>
 
-            <form onSubmit={handleAddNewCommunity}>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Qual vai ser o nome da sua comunidade?"
-                  name="title"
-                  aria-label="Qual vai ser o nome da sua comunidade?"
-                  maxLength={20}
-                />
-              </div>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Coloque uma URL para usarmos de capa"
-                  name="image"
-                  aria-label="Coloque uma URL para usarmos de capa"
-                  maxLength={200}
-                />
-              </div>
+            <div className="action-buttons-container">
+              <button
+                type="button"
+                className={`action-button ${
+                  whatToDo === 'message' ? 'active' : ''
+                }`}
+                onClick={() => setWhatToDo('message')}
+              >
+                Deixar um recado
+              </button>
 
-              {isCommunityInvalid && (
-                <p className="form-invalid">
-                  A validação do formulário falhou, por favor, preencha com um
-                  nome de até 20 caracteres e um recado de até 200 caracteres.
-                </p>
-              )}
-
-              <button type="submit">{createCommunityButtonText}</button>
-            </form>
+              <button
+                type="button"
+                className={`action-button ${
+                  whatToDo === 'community' ? 'active' : ''
+                }`}
+                onClick={() => setWhatToDo('community')}
+              >
+                Criar uma comunidade
+              </button>
+            </div>
           </Card>
 
-          <Card>
-            <h2 className="subTitle">Deixe um recado</h2>
+          {whatToDo === 'community' && (
+            <Card>
+              <h2 className="subTitle">Crie a sua comunidade</h2>
 
-            <form onSubmit={handleAddNewMessage}>
-              <div>
-                <input
-                  type="text"
-                  placeholder="De quem é o recado?"
-                  name="creatorSlug"
-                  aria-label="De quem é o recado?"
-                  maxLength={20}
-                />
-              </div>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Qual é o seu recado?"
-                  name="message"
-                  aria-label="Qual é o seu recado?"
-                  maxLength={200}
-                />
-              </div>
+              <form onSubmit={handleAddNewCommunity}>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Qual vai ser o nome da sua comunidade?"
+                    name="title"
+                    aria-label="Qual vai ser o nome da sua comunidade?"
+                    maxLength={20}
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Coloque uma URL para usarmos de capa"
+                    name="image"
+                    aria-label="Coloque uma URL para usarmos de capa"
+                    maxLength={200}
+                  />
+                </div>
 
-              {isMessageInvalid && (
-                <p className="form-invalid">
-                  A validação do formulário falhou, por favor, preencha com um
-                  nome de até 20 caracteres e um recado de até 200 caracteres.
-                </p>
-              )}
+                {isCommunityInvalid && (
+                  <p className="form-invalid">
+                    A validação do formulário falhou, por favor, preencha com um
+                    nome de até 20 caracteres e um recado de até 200 caracteres.
+                  </p>
+                )}
 
-              <button type="submit">{createMessageButtonText}</button>
-            </form>
-          </Card>
+                <button type="submit">{createCommunityButtonText}</button>
+              </form>
+            </Card>
+          )}
 
-          <ListMessages
-            title={`Recados (${messages.length})`}
-            data={messages.map((message) => ({
-              key: String(message.id),
-              creatorSlug: message.creatorSlug,
-              message: message.message,
-            }))}
-            loading={loading}
-            error={error}
-          />
+          {whatToDo === 'message' && (
+            <>
+              <Card>
+                <h2 className="subTitle">Deixe um recado</h2>
+
+                <form onSubmit={handleAddNewMessage}>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="De quem é o recado?"
+                      name="creatorSlug"
+                      aria-label="De quem é o recado?"
+                      maxLength={20}
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Qual é o seu recado?"
+                      name="message"
+                      aria-label="Qual é o seu recado?"
+                      maxLength={200}
+                    />
+                  </div>
+
+                  {isMessageInvalid && (
+                    <p className="form-invalid">
+                      A validação do formulário falhou, por favor, preencha com
+                      um nome de até 20 caracteres e um recado de até 200
+                      caracteres.
+                    </p>
+                  )}
+
+                  <button type="submit">{createMessageButtonText}</button>
+                </form>
+              </Card>
+
+              <ListMessages
+                title={`Recados (${messages.length})`}
+                data={messages.map((message) => ({
+                  key: String(message.id),
+                  creatorSlug: message.creatorSlug,
+                  message: message.message,
+                }))}
+                loading={loading}
+                error={error}
+              />
+            </>
+          )}
         </div>
 
         <div className="profileRelationsArea">
