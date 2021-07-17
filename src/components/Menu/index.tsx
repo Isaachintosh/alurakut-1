@@ -6,6 +6,8 @@ import { Profile } from 'components/Profile';
 import { ModalTheme } from 'components/ModalTheme';
 import { useModalTheme } from 'hooks/ModalThemeContext';
 import { useMenu } from 'hooks/MenuContext';
+import { signOut } from 'next-auth/client';
+import { useRouter } from 'next/router';
 
 interface MenuProps {
   githubUser: string;
@@ -14,6 +16,7 @@ interface MenuProps {
 export function Menu({ githubUser }: MenuProps) {
   const { isModalThemeOpen, setIsModalThemeOpen } = useModalTheme();
   const { search, setSearch } = useMenu();
+  const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,6 +26,10 @@ export function Menu({ githubUser }: MenuProps) {
 
   function handleToggleModalTheme() {
     setIsModalThemeOpen((prevState) => !prevState);
+  }
+
+  function handleSignOut() {
+    signOut();
   }
 
   return (
@@ -48,7 +55,9 @@ export function Menu({ githubUser }: MenuProps) {
           <a href="#" onClick={handleToggleModalTheme}>
             Escolher tema
           </a>
-          <Link href="/logout">Sair</Link>
+          <a href="#" onClick={handleSignOut}>
+            Sair
+          </a>
 
           <div>
             <input

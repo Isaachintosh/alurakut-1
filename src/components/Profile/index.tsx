@@ -1,20 +1,38 @@
 import * as S from './styles';
 import { Link } from 'components/Link';
+import { signOut } from 'next-auth/client';
 
 interface ProfileProps {
   githubUser: string;
 }
 
 export function Profile({ githubUser }: ProfileProps) {
+  function onImageError(key: string) {
+    const imageError = document.getElementById(key) as HTMLImageElement;
+    if (imageError) imageError.src = 'https://via.placeholder.com/150';
+  }
+
+  function handleSignOut() {
+    signOut();
+  }
+
   return (
     <S.Container as="aside">
-      {/* TODO should render placeholder if user is not found */}
-      <img src={`https://github.com/${githubUser}.png`} alt="User avatar" />
+      <img
+        id="user-avatar"
+        src={`https://github.com/${githubUser}.png`}
+        alt="User avatar"
+        onError={() => onImageError('user-avatar')}
+      />
 
       <hr />
 
       <p>
-        <a className="boxLink" href={`https://github.com/${githubUser}`}>
+        <a
+          className="boxLink"
+          href={`https://github.com/${githubUser}`}
+          target="_blank"
+        >
           @{githubUser}
         </a>
       </p>
@@ -48,10 +66,10 @@ export function Profile({ githubUser }: ProfileProps) {
             <img src={`${process.env.NEXT_PUBLIC_BASE_URL}/icons/plus.svg`} />
             GitHub Trends
           </Link>
-          <Link href="/logout">
+          <a href="#" onClick={handleSignOut}>
             <img src={`${process.env.NEXT_PUBLIC_BASE_URL}/icons/logout.svg`} />
             Sair
-          </Link>
+          </a>
         </nav>
       </S.Actions>
     </S.Container>

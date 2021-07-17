@@ -1,19 +1,22 @@
-import peopleMock from 'mocks/people.json';
-import { FormEvent, useEffect, useState } from 'react';
 import { Card } from 'components/Card';
+import { ListInterests } from 'components/ListInterests';
 import { Menu } from 'components/Menu';
 import { Profile } from 'components/Profile';
 import { ProfileSummary } from 'components/ProfileSummary';
+import { useMenu } from 'hooks/MenuContext';
+import peopleMock from 'mocks/people.json';
+import { FormEvent, useEffect, useState } from 'react';
+import { api } from 'services/api';
+import { githubApi } from 'services/githubApi';
+import { debounce } from 'utils/debounce';
 import * as S from './styles';
 import { Community, Follower } from './types';
-import { ListInterests } from 'components/ListInterests';
-import { githubApi } from 'services/githubApi';
-import { api } from 'services/api';
-import { useMenu } from 'hooks/MenuContext';
-import { debounce } from 'utils/debounce';
+import nookies from 'nookies';
 
 export function Home() {
   const { search } = useMenu();
+
+  const [githubUser, setGithubUser] = useState('');
 
   const [followers, setFollowers] = useState<Follower[]>([]);
   const [followersFiltered, setFollowersFiltered] = useState<Follower[]>([]);
@@ -23,24 +26,36 @@ export function Home() {
     []
   );
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
   const [communityPeopleFiltered, setCommunityPeopleFiltered] =
     useState<string[]>(peopleMock);
 
   const [createCommunityButtonText, setCreateCommunityButtonText] =
     useState('Criar comunidade');
 
-  const githubUser = 'brfeitoza';
-
   useEffect(() => {
-    githubApi.get(`users/${githubUser}/followers`).then((response) => {
-      setFollowers(response.data);
-      setFollowersFiltered(response.data);
-    });
+    const user = nookies.get(null).GITHUB_USER;
+    if (user) setGithubUser(user);
 
-    api.get('communities').then((response) => {
-      setCommunities(response.data.allCommunities);
-      setCommunitiesFiltered(response.data.allCommunities);
-    });
+    Promise.all([
+      githubApi.get(`users/${user}/followers`),
+      api.get('communities'),
+    ])
+      .then(([responseFollowers, responseCommunities]) => {
+        setFollowers(responseFollowers.data);
+        setFollowersFiltered(responseFollowers.data);
+
+        setCommunities(responseCommunities.data.allCommunities);
+        setCommunitiesFiltered(responseCommunities.data.allCommunities);
+      })
+      .catch(() => {
+        setError(true);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   function handleFilterFollowers() {
@@ -152,6 +167,8 @@ export function Home() {
               title: follower.login,
             }))}
             target="_blank"
+            loading={loading}
+            error={error}
           />
           <ListInterests
             title={`Comunidades (${communities.length})`}
@@ -161,6 +178,8 @@ export function Home() {
               imageSrc: community.imageUrl,
               title: community.title,
             }))}
+            loading={loading}
+            error={error}
           />
           <ListInterests
             title={`Pessoas da comunidade (${peopleMock.length})`}

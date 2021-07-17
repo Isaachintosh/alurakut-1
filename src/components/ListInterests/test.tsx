@@ -88,6 +88,4 @@ describe('ListInterests component', () => {
 
     expect(screen.getByText(/ver mais/i)).toBeInTheDocument();
   });
-
-  // TODO should render image placeholder if src is invalid
 });

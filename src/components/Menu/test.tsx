@@ -38,6 +38,4 @@ describe('Menu component', () => {
 
     expect(screen.getByAltText(/icon close menu/i)).toBeInTheDocument();
   });
-
-  // TODO should render image placeholder if src is invalid
 });
