@@ -1,7 +1,7 @@
 import { ListImages } from 'components/ListImages';
 import { ImageShape } from 'components/ListImages/types';
 import { useModalTheme } from 'hooks/ModalThemeContext';
-import { ChangeEventHandler, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { api } from 'services/api';
 import * as S from './styles';
@@ -32,7 +32,7 @@ export function ModalTheme({ isOpen }: ModalThemeProps) {
     setIsModalThemeOpen(false);
   }
 
-  function handleChooseImageFromPc(e: ChangeEventHandler<HTMLInputElement>) {
+  function handleChooseImageFromPc(e: ChangeEvent<HTMLInputElement>) {
     const getImagePath = URL.createObjectURL(e.target.files[0]);
     document.body.style.backgroundImage = `url('${getImagePath}')`;
     handleCloseModal();
