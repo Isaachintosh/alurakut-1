@@ -1,40 +1,11 @@
 import styled from 'styled-components';
 import * as CardStyles from 'components/Card/styles';
 
-export const Container = styled.main`
-  width: 100%;
-  grid-gap: 10px;
-  margin: 0 auto;
-  max-width: 500px;
-  padding: 16px;
-
-  .profileArea {
-    display: none;
-
-    @media (min-width: 860px) {
-      display: block;
-    }
-  }
-
-  @media (min-width: 860px) {
-    max-width: 1110px;
-    display: grid;
-    grid-template-areas: 'profileArea welcomeArea profileRelationsArea';
-    grid-template-columns: 160px 1fr 312px;
-  }
-
-  .form-invalid {
-    margin-bottom: ${({ theme }) => theme.spacing.gap};
-    color: #c92306;
-  }
-`;
-
-export const ProfileRelationsBoxWrapper = styled(CardStyles.Container)`
+export const Container = styled(CardStyles.Container)`
   ul {
-    display: grid;
-    grid-gap: 8px;
-    grid-template-columns: 1fr 1fr 1fr;
-    max-height: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: ${({ theme }) => theme.spacing.gap};
     list-style: none;
   }
 
@@ -79,6 +50,16 @@ export const ProfileRelationsBoxWrapper = styled(CardStyles.Container)`
       bottom: 0;
       z-index: 1;
       background-image: linear-gradient(0deg, #00000073, transparent);
+    }
+  }
+
+  .seeMore {
+    color: ${({ theme }) => theme.colors.blue[600]};
+    margin-top: 20px;
+
+    &:hover {
+      cursor: pointer;
+      filter: brightness(1.2);
     }
   }
 `;

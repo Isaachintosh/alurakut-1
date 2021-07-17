@@ -10,3 +10,9 @@ export type Follower = {
   avatar_url: string;
   login: string;
 };
+
+export type Message = {
+  id: string;
+  message: string;
+  creatorSlug: string;
+};

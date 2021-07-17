@@ -3,7 +3,7 @@ import { getSummaryArray } from 'utils/get-summary-array';
 import * as S from './styles';
 import { ListObjectShape } from './types';
 
-interface ListInterests {
+interface ListInterestsProps {
   title: string;
   data: Array<ListObjectShape>;
   target?: '_blank' | '_parent' | '_self' | '_top';
@@ -17,7 +17,7 @@ export function ListInterests({
   target = '_self',
   loading = false,
   error = false,
-}: ListInterests) {
+}: ListInterestsProps) {
   const [seeMoreData, setSeeMoreData] = useState(false);
   const [seeMoreText, setSeeMoreText] = useState('Ver mais');
 

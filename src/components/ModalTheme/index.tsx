@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import { api } from 'services/api';
 import * as S from './styles';
 import { FiX } from 'react-icons/fi';
+import nookies from 'nookies';
 
 interface ModalThemeProps {
   isOpen: boolean;
@@ -24,7 +25,18 @@ export function ModalTheme({ isOpen }: ModalThemeProps) {
   }, []);
 
   function handleSetTheme(image: string) {
-    document.body.style.backgroundImage = `url('${image}')`;
+    const url = `url('${image}')`;
+
+    document.body.style.backgroundImage = url;
+
+    const user = nookies.get(null).GITHUB_USER;
+    if (user) {
+      nookies.set(null, `${user}_THEME`, url, {
+        maxAge: 60 * 60 * 24 * 7,
+        path: '/',
+      });
+    }
+
     handleCloseModal();
   }
 
@@ -34,7 +46,19 @@ export function ModalTheme({ isOpen }: ModalThemeProps) {
 
   function handleChooseImageFromPc(e: ChangeEvent<HTMLInputElement>) {
     const getImagePath = URL.createObjectURL(e.target.files[0]);
-    document.body.style.backgroundImage = `url('${getImagePath}')`;
+
+    const url = `url('${getImagePath}')`;
+
+    document.body.style.backgroundImage = url;
+
+    const user = nookies.get(null).GITHUB_USER;
+    if (user) {
+      nookies.set(null, `${user}_THEME`, url, {
+        maxAge: 60 * 60 * 24 * 7,
+        path: '/',
+      });
+    }
+
     handleCloseModal();
   }
 

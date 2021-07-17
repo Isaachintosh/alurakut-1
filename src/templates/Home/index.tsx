@@ -10,8 +10,10 @@ import { api } from 'services/api';
 import { githubApi } from 'services/githubApi';
 import { debounce } from 'utils/debounce';
 import * as S from './styles';
-import { Community, Follower } from './types';
+import { Community, Follower, Message } from './types';
 import nookies from 'nookies';
+import { ListMessages } from 'components/ListMessages';
+import * as yup from 'yup';
 
 export function Home() {
   const { search } = useMenu();
@@ -25,6 +27,10 @@ export function Home() {
   const [communitiesFiltered, setCommunitiesFiltered] = useState<Community[]>(
     []
   );
+  const [isCommunityInvalid, setIsCommunityInvalid] = useState(false);
+
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isMessageInvalid, setIsMessageInvalid] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -34,21 +40,31 @@ export function Home() {
 
   const [createCommunityButtonText, setCreateCommunityButtonText] =
     useState('Criar comunidade');
+  const [createMessageButtonText, setCreateMessageButtonText] =
+    useState('Deixar recado');
 
   useEffect(() => {
     const user = nookies.get(null).GITHUB_USER;
     if (user) setGithubUser(user);
 
+    const theme = nookies.get(null)[`${user}_THEME`];
+    if (theme) {
+      document.body.style.backgroundImage = theme;
+    }
+
     Promise.all([
       githubApi.get(`users/${user}/followers`),
       api.get('communities'),
+      api.get('messages'),
     ])
-      .then(([responseFollowers, responseCommunities]) => {
+      .then(([responseFollowers, responseCommunities, responseMessages]) => {
         setFollowers(responseFollowers.data);
         setFollowersFiltered(responseFollowers.data);
 
         setCommunities(responseCommunities.data.allCommunities);
         setCommunitiesFiltered(responseCommunities.data.allCommunities);
+
+        setMessages(responseMessages.data.allMessages);
       })
       .catch(() => {
         setError(true);
@@ -105,7 +121,6 @@ export function Home() {
     const formData = new FormData(e.target as HTMLFormElement);
 
     const community = {
-      id: `${new Date().toISOString()}-${Math.random()}`,
       title: String(formData.get('title')),
       imageUrl: String(formData.get('image')),
       creatorSlug: githubUser,
@@ -115,6 +130,40 @@ export function Home() {
     setCreateCommunityButtonText('Criar comunidade');
 
     setCommunities((prevState) => [...prevState, response.data.newCommunity]);
+  }
+
+  async function handleAddNewMessage(e: FormEvent) {
+    e.preventDefault();
+    setCreateMessageButtonText('Carregando...');
+    setIsMessageInvalid(false);
+
+    try {
+      const schema = yup.object().shape({
+        creatorSlug: yup.string().required().max(20),
+        message: yup.string().required().max(200),
+      });
+
+      const formData = new FormData(e.target as HTMLFormElement);
+
+      const message = {
+        creatorSlug: String(formData.get('creatorSlug')),
+        message: String(formData.get('message')),
+      };
+
+      const isValid = await schema.isValid(message);
+      if (!isValid) {
+        setIsMessageInvalid(true);
+        return;
+      }
+
+      const response = await api.post('create-message', message);
+
+      setMessages((prevState) => [...prevState, response.data.newMessage]);
+    } catch {
+      setIsMessageInvalid(true);
+    } finally {
+      setCreateMessageButtonText('Deixar recado');
+    }
   }
 
   return (
@@ -132,7 +181,7 @@ export function Home() {
           </Card>
 
           <Card>
-            <h2 className="subTitle">O que você deseja fazer?</h2>
+            <h2 className="subTitle">Crie a sua comunidade!</h2>
 
             <form onSubmit={handleAddNewCommunity}>
               <div>
@@ -141,6 +190,7 @@ export function Home() {
                   placeholder="Qual vai ser o nome da sua comunidade?"
                   name="title"
                   aria-label="Qual vai ser o nome da sua comunidade?"
+                  maxLength={20}
                 />
               </div>
               <div>
@@ -149,12 +199,65 @@ export function Home() {
                   placeholder="Coloque uma URL para usarmos de capa"
                   name="image"
                   aria-label="Coloque uma URL para usarmos de capa"
+                  maxLength={200}
                 />
               </div>
+
+              {isCommunityInvalid && (
+                <p className="form-invalid">
+                  A validação do formulário falhou, por favor, preencha com um
+                  nome de até 20 caracteres e um recado de até 200 caracteres.
+                </p>
+              )}
 
               <button type="submit">{createCommunityButtonText}</button>
             </form>
           </Card>
+
+          <Card>
+            <h2 className="subTitle">Deixe um recado</h2>
+
+            <form onSubmit={handleAddNewMessage}>
+              <div>
+                <input
+                  type="text"
+                  placeholder="De quem é o recado?"
+                  name="creatorSlug"
+                  aria-label="De quem é o recado?"
+                  maxLength={20}
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Qual é o seu recado?"
+                  name="message"
+                  aria-label="Qual é o seu recado?"
+                  maxLength={200}
+                />
+              </div>
+
+              {isMessageInvalid && (
+                <p className="form-invalid">
+                  A validação do formulário falhou, por favor, preencha com um
+                  nome de até 20 caracteres e um recado de até 200 caracteres.
+                </p>
+              )}
+
+              <button type="submit">{createMessageButtonText}</button>
+            </form>
+          </Card>
+
+          <ListMessages
+            title={`Recados (${messages.length})`}
+            data={messages.map((message) => ({
+              key: String(message.id),
+              creatorSlug: message.creatorSlug,
+              message: message.message,
+            }))}
+            loading={loading}
+            error={error}
+          />
         </div>
 
         <div className="profileRelationsArea">

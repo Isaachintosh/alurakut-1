@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Home } from 'templates/Home';
 
-export default function Index({ githubUser }) {
+export default function Index() {
   const [session] = useSession();
   const { push } = useRouter();
 

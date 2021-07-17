@@ -18,11 +18,13 @@ export default {
       200: '#bbcde8',
       100: '#d9e6f6',
     },
-    pink: {
-      500: '#d81d99',
-    },
+    pink: '#d81d99',
   },
   shapes: {
     borderRadius: '8px',
+  },
+  spacing: {
+    gap: '12px',
+    gutter: '16px',
   },
 };

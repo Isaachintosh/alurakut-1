@@ -1,11 +1,30 @@
 import { useState } from 'react';
 import { SignInButton } from 'components/SignInButton';
+import { useRef } from 'react';
+import { githubApi } from 'services/githubApi';
+import { debounce } from 'utils/debounce';
+import * as S from './styles';
 
 export function Login() {
   const [githubUser, setGithubUser] = useState('');
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  function handleInputChange() {
+    debounce(async () => {
+      const username = inputRef.current.value;
+
+      try {
+        await githubApi.get(`users/${username}`);
+        setGithubUser(username);
+      } catch (err) {
+        setGithubUser('');
+      }
+    }, 500);
+  }
+
   return (
-    <main
+    <S.Container
       style={{
         display: 'flex',
         flex: 1,
@@ -39,8 +58,9 @@ export function Login() {
 
             <input
               name="githubUser"
-              value={githubUser}
-              onChange={(e) => setGithubUser(e.target.value)}
+              placeholder="Informe o seu usuário do GitHub"
+              ref={inputRef}
+              onChange={handleInputChange}
             />
 
             <SignInButton githubUser={githubUser} />
@@ -64,6 +84,6 @@ export function Login() {
           </p>
         </footer>
       </div>
-    </main>
+    </S.Container>
   );
 }
