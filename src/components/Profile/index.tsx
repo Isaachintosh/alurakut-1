@@ -41,7 +41,7 @@ export function Profile({ githubUser }: ProfileProps) {
 
       <S.Actions>
         <nav>
-          <Link href="/">
+          <Link href="/profile">
             <img src={`${process.env.NEXT_PUBLIC_BASE_URL}/icons/user.svg`} />
             Perfil
           </Link>

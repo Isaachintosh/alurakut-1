@@ -21,7 +21,7 @@ export const Container = styled.div`
 
     .logoArea {
       grid-area: logoArea;
-      background-color: ${({ theme }) => theme.colors.gray[100]};
+      background-color: ${({ theme }) => theme.colors.white};
       border-radius: ${({ theme }) => theme.shapes.borderRadius};
       padding: ${({ theme }) => theme.spacing.gutter};
       text-align: center;

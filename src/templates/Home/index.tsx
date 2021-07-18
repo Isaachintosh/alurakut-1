@@ -120,18 +120,34 @@ export function Home() {
     e.preventDefault();
     setCreateCommunityButtonText('Carregando...');
 
-    const formData = new FormData(e.target as HTMLFormElement);
+    try {
+      const schema = yup.object().shape({
+        title: yup.string().required().max(20),
+        image: yup.string().required().max(200),
+      });
 
-    const community = {
-      title: String(formData.get('title')),
-      imageUrl: String(formData.get('image')),
-      creatorSlug: githubUser,
-    };
+      const formData = new FormData(e.target as HTMLFormElement);
 
-    const response = await api.post('create-community', community);
-    setCreateCommunityButtonText('Criar comunidade');
+      const community = {
+        title: String(formData.get('title')),
+        imageUrl: String(formData.get('image')),
+        creatorSlug: githubUser,
+      };
 
-    setCommunities((prevState) => [...prevState, response.data.newCommunity]);
+      const isValid = await schema.isValid(community);
+      if (!isValid) {
+        setIsCommunityInvalid(true);
+        return;
+      }
+
+      const response = await api.post('create-community', community);
+
+      setCommunities((prevState) => [...prevState, response.data.newCommunity]);
+    } catch {
+      setIsCommunityInvalid(true);
+    } finally {
+      setCreateCommunityButtonText('Criar comunidade');
+    }
   }
 
   async function handleAddNewMessage(e: FormEvent) {
