@@ -19,6 +19,7 @@
 
 - [Demo](#demo)
 - [Technologies](#technologies)
+- [Extra features](#extra-featuers)
 - [Getting started](#getting-started)
 - [Components docs](#components-docs)
 - [Running tests](#running-tests)
@@ -52,6 +53,19 @@ This project was made using the follow technologies:
 - [EditorConfig](https://editorconfig.org/)
 - [Husky](https://www.npmjs.com/package/husky)
 - [Commitlint](https://github.com/conventional-changelog/commitlint)
+
+# Extra features
+
+- Loading state for async information;
+- Possibility to filter followers, communities and people by the menu search field;
+- Modal to choose the theme, which has an integration with unsplash that searches random images as a suggestion or uploading an image from your pc;
+- Fallback for images that have an invalid src, looking for a placeholder image to replace;
+- Authentication with github using next-auth;
+- Save selected theme in cookies (It doesn't work for pc images yet);
+- Used the Theme Provider of styled-components;
+- Validation with yup;
+- User profile page, listing github information;
+- Leave messages.
 
 # Getting started
 
