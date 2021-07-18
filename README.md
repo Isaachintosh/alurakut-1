@@ -3,10 +3,16 @@
 </p>
 
 <p align="center">
+  <img alt="Languages" src="https://img.shields.io/github/languages/count/brfeitoza/alurakut?color=%235963C5" />
+  <img alt="lastcommit" src="https://img.shields.io/github/last-commit/brfeitoza/alurakut?color=%235761C3" />
+  <img alt="License" src="https://img.shields.io/github/license/brfeitoza/alurakut?color=%235E69D7" />
+  <img alt="Issues" src="https://img.shields.io/github/issues/brfeitoza/alurakut?color=%235965E0">
   <a href="https://www.linkedin.com/in/brfeitoza/">
-    <img alt="Bruno Feitoza" src="https://img.shields.io/badge/-brfeitoza-D81D99?style=flat&logo=Linkedin&logoColor=white" />
+    <img alt="Bruno Feitoza" src="https://img.shields.io/badge/-brfeitoza-5965e0?style=flat&logo=Linkedin&logoColor=white" />
   </a>
-  <img alt="Languages" src="https://img.shields.io/github/license/brfeitoza/alurakut" />
+  <a href="mailto:bfeitoza634cyt@gmail.com">
+   <img alt="E-mail" src="https://img.shields.io/badge/-bfeitoza634cyt%40gmail.com-%23525DCB" />
+  </a>
 </p>
 
 <p align="center">
